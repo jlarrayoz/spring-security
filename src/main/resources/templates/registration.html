@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Pizzeria Spring</title>
+	<link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+
+<body>
+
+	<form method="POST" th:object="${formDto}" th:action="@{/registrarse}" id="registerForm">
+
+		<fieldset style="width:500px;">
+			<legend class="h1">
+				Registro de usuario
+			</legend>
+
+			<span class="validationError" th:if="${#fields.hasErrors('validarPassword')}"
+				th:errors="*{validarPassword}">Error campo confirm</span>
+			<p>
+				<label for="username">Usuario</label>
+				<input type="text" th:field="*{username}" /><br />
+				<span class="validationError" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error
+					campo usuario</span>
+			</p>
+			<p>
+				<label for="password">Password</label>
+				<input type="text" th:field="*{password}" /><br />
+				<span class="validationError" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error
+					campo password</span>
+			</p>
+			<p>
+				<label for="confirmPassword">Confirmar pass</label>
+				<input type="text" th:field="*{confirmPassword}" /><br />
+				<span class="validationError" th:if="${#fields.hasErrors('confirmPassword')}"
+					th:errors="*{confirmPassword}">Error campo confirm</span>
+			</p>
+			<p>
+				<label for="Nombre">Nombre</label>
+				<input type="text" th:field="*{nombrePersona}" /><br />
+				<span class="validationError" th:if="${#fields.hasErrors('nombrePersona')}"
+					th:errors="*{nombrePersona}">Error campo nombre</span>
+			</p>
+			<p>
+				<label for="Nombre">Ciudad</label>
+				<input type="text" th:field="*{ciudad}" /><br />
+				<span class="validationError" th:if="${#fields.hasErrors('ciudad')}" th:errors="*{ciudad}">Error campo
+					ciudad</span>
+			</p>
+			<p>
+				<label for="Nombre">Barrio</label>
+				<input type="text" th:field="*{barrio}" /><br />
+				<span class="validationError" th:if="${#fields.hasErrors('barrio')}" th:errors="*{barrio}">Error campo
+					barrio</span>
+			</p>
+			<p>
+				<label for="Nombre">Dirección</label>
+				<input type="text" th:field="*{direccion}" /><br />
+				<span class="validationError" th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}">Error
+					campo dirección</span>
+			</p>
+		</fieldset>
+		<br />
+		<input type="submit" value="Registrar" />
+		<a href="/login">Salir</a>
+	</form>
+</body>
+
+</html>

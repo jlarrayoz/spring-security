@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Pizzeria Spring</title>
+	<link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+
+<body>
+	<h1>Login</h1>
+	
+	<span th:if="${param.error}" class="validationError">Error al hacer login, verifique usuario o contraseña</span>
+
+	<p>¿Sos nuevo en la app? Clic <a th:href="@{/registrarse}">acá</a> para registrarte.</p>
+	
+	<form method="POST" th:action="@{/login}" id="loginForm"> 
+		<label for="username">Usuario</label>
+		<input type="text" name="username" id="username" /><br />
+		
+		<label for="password">Contraseña</label>
+		<input type="password" name="password" id="password" /><br />
+		
+		<input type="submit" value="Login" />
+	</form>
+</body>
+</html>
+
