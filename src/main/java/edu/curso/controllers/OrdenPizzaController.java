@@ -1,5 +1,7 @@
 package edu.curso.controllers;
 
+
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import edu.curso.domain.OrdenPizza;
+import edu.curso.domain.security.Usuario;
 import edu.curso.models.OrdenPizzaRepository;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +24,7 @@ public class OrdenPizzaController {
 	
 	private OrdenPizzaRepository ordenPizzaRepo;
 	
+
 	public OrdenPizzaController(OrdenPizzaRepository ordenPizzaRepo) {
 		super();
 		this.ordenPizzaRepo = ordenPizzaRepo;
@@ -40,13 +44,16 @@ public class OrdenPizzaController {
 	 * @return
 	 */
 	@PostMapping
-	public String procesarOrden(@Valid OrdenPizza ordenPizza, Errors errores, SessionStatus sessionStatus) {
+	public String procesarOrden(@Valid OrdenPizza ordenPizza, Errors errores, SessionStatus sessionStatus, @AuthenticationPrincipal Usuario usuario) {
 		log.info("Procesando la orden de pizza: {}", ordenPizza);
 		
 		if (errores.hasErrors()) {
 			log.error("Se encontraror errores al validar: {}", errores.getAllErrors());
 			return "ordenes";
 		}
+		
+		ordenPizza.setUsuario(usuario);
+		
 		
 		//Usamos el repo de ordenPizza para guardar la orden en la BD
 		ordenPizzaRepo.save(ordenPizza);

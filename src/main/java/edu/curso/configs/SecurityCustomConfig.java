@@ -7,11 +7,14 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 import edu.curso.service.UserService;
 
 @Configuration
+@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityCustomConfig {
 
 	@Autowired
@@ -39,13 +42,17 @@ public class SecurityCustomConfig {
 		return http.authorizeHttpRequests(authorize -> {
 			try {
                 authorize
-                        .requestMatchers("/design", "/ordenes", "ordenes/**", "design/**").hasRole("USER")
+                        .requestMatchers("/design", "/ordenes").hasRole("USER")
                         .requestMatchers("/", "/**").permitAll()
                         .and()
                         .formLogin(login -> login.loginPage("/login")
                                 .defaultSuccessUrl("/design"))
                         .logout(logout -> logout
-                                .logoutSuccessUrl("/"));
+                                .logoutSuccessUrl("/"))
+                        //Necesario para acceder a la console de h2
+                        .authorizeHttpRequests(auth -> auth .requestMatchers(toH2Console()).permitAll())
+                        .csrf(csrf -> csrf .ignoringRequestMatchers(toH2Console()))
+                        .headers(headers -> headers.frameOptions().sameOrigin());
 			} catch (Exception e) {
 				throw new RuntimeException("Error en filterChain");
 			}

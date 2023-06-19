@@ -44,8 +44,7 @@ public class Usuario implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
-		return null;
+		return username;
 	}
 
 	//Devolvemos true ya que en este caso la cuenta no expira

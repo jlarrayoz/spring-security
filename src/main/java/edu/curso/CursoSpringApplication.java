@@ -7,6 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
+import org.thymeleaf.spring6.SpringTemplateEngine;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import edu.curso.domain.Ingrediente;
 import edu.curso.domain.TipoIngrediente;
@@ -18,6 +21,20 @@ public class CursoSpringApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursoSpringApplication.class, args);
+	}
+	
+	/**
+	 * Habilita el uso de sec de thymeleaf 
+	 * @param templateResolver
+	 * @param sec
+	 * @return
+	 */
+	@Bean
+	public SpringTemplateEngine templateEngine(ITemplateResolver templateResolver, SpringSecurityDialect sec) {
+	    final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+	    templateEngine.setTemplateResolver(templateResolver);
+	    templateEngine.addDialect(sec); // Habilita el uso de "sec"
+	    return templateEngine;
 	}
 	
 	

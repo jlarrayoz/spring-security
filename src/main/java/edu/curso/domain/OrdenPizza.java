@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
 
+import edu.curso.domain.security.Usuario;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
@@ -51,6 +53,12 @@ public class OrdenPizza {
 	//Prestar atención al mapeo de esta relación y el uso del cascade
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Pizza> pizzas = new ArrayList<>();
+	
+	/**
+	 * Usuario que realiza la orden
+	 */
+	@ManyToOne
+	private Usuario usuario;
 	
 	public void addPizza(Pizza pizzza) {
 		pizzas.add(pizzza);
